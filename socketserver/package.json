@@ -1,0 +1,17 @@
+{
+  "name": "socketserver",
+  "version": "1.0.0",
+  "description": "WebSocket Server fro Bittrex and Poloniex Cryptocurrency exchanges.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Milad Gueramian",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "node-bittrex-api": "^0.7.6",
+    "poloniex-api-node": "^1.5.1",
+    "ws": "^3.2.0"
+  }
+}
