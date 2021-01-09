@@ -6,7 +6,7 @@ var request = require('request');
 console.log('started app');
 
 var bittrexTickerURL = 'https://bittrex.com/api/v1.1/public/getticker/';
-var poloTickerURL = 'https://poloniex.com/public/?command=returnTicker';
+var poloTickerURL = 'https://poloniex.com/public?command=returnTicker';
 var gdaxURL = 'https://api.gdax.com/products/';
 
 server.on('connection', function(ws) {
