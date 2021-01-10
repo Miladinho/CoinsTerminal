@@ -1,4 +1,5 @@
-var ws = new WebSocket('ws://localhost:3331');
+const HOST = process.env.HOST || 'ws://localhost:3331'
+const ws = new WebSocket(HOST);
 
 var coinbasePrev = {}
 var bittrexPrev = {}
