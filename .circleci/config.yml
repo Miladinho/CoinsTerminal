@@ -1,0 +1,22 @@
+version: 2.1
+orbs:
+  node: circleci/node@3.0.0
+jobs:
+  deploy-to-web:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - run: npm install
+      - run: cd socketserver
+      - run: PORT=80 node index.js
+workflows:
+  node-tests:
+    jobs:
+      - node/test
+  deploy-to-web:
+    jobs:
+      - deploy-to-web:
+          filters:
+            branches:
+              only: master
