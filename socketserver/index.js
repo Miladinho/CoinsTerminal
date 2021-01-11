@@ -1,4 +1,4 @@
-const PORT = process.env.port || 3331
+const PORT = process.env.PORT || 3331
 const DATA_FETCH_DELAY = process.env.DATA_FETCH_DELAY || 2000
 
 const WebSocket = require('ws').Server
