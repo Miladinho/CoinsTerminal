@@ -10,5 +10,8 @@ jobs:
 workflows:
   deploy-to-prod:
     jobs:
-      - deploy-to-web
+      - deploy-to-web:
+          filters:
+            branches:
+              only: master
 
