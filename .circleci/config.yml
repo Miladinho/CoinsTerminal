@@ -10,10 +10,11 @@ jobs:
           name: SSH script
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} "
-            cd CoinsTerminal
             if [ -d CoinsTerminal ]; then
+              cd CoinsTerminal
               git pull
             else
+              cd CoinsTerminal
               git clone ${GITHUB_SSH_REPO_URL}
             fi
             npm install
