@@ -13,9 +13,7 @@ jobs:
       - run: cd socketserver
       - run: pm2 start npm -- start
 workflows:
-  deploy-to-web:
+  deploy-to-prod:
     jobs:
-      - deploy-to-web:
-          filters:
-            branches:
-              only: master
+      - deploy-to-web
+
