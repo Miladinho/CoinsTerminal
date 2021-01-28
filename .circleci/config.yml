@@ -11,7 +11,11 @@ jobs:
           command: |
             ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} "
             cd CoinsTerminal
-            git pull
+            if [ -d CoinsTerminal ]; then
+              git pull
+            else
+              git clone ${GITHUB_SSH_REPO_URL}
+            fi
             npm install
             cd socketserver
             pm2 start npm -- start"
