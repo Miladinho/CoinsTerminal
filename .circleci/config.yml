@@ -9,12 +9,8 @@ jobs:
       - add_ssh_keys: # add private SSH key from CircleCI account based on fingerprint.
           fingerprints:
             - "d4:1d:ff:a4:50:71:a2:5f:30:04:35:94:a2:6d:e5:8e"
-      - run: ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST}
-      - run: cd CoinsTerminal
-      - run: git clone ${GITHUB_SSH_REPO_URL}
-      - run: npm install
-      - run: cd socketserver
-      - run: pm2 start npm -- start
+      - run: ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} \
+        "cd CoinsTerminal && git pull && npm install && cd socketserver && pm2 start npm -- start"
 workflows:
   deploy-to-prod:
     jobs:
