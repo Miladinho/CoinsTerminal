@@ -1,4 +1,4 @@
-const HOST = process.env.HOST || 'ws://localhost:3331'
+const HOST = 'ws://35.162.76.65' //change to 'ws://localhost:3331' when testing
 const ws = new WebSocket(HOST);
 
 var coinbasePrev = {}
