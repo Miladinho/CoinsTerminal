@@ -11,9 +11,6 @@ jobs:
       - run: cd socketserver
       - run: PORT=80 node index.js
 workflows:
-  node-tests:
-    jobs:
-      - node/test
   deploy-to-web:
     jobs:
       - deploy-to-web:
