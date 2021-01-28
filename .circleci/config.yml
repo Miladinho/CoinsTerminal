@@ -9,8 +9,8 @@ jobs:
       - run:
           name: SSH script
           command: |
-            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST}
-            "cd CoinsTerminal
+            ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} "
+            cd CoinsTerminal
             git pull
             npm install
             cd socketserver
