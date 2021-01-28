@@ -6,10 +6,12 @@ jobs:
     executor:
       name: node/default
     steps:
-      - checkout
+      - run: ssh ${SSH_USER}@${SSH_HOST}
+      - run: cd CoinsTerminal
+      - run: git clone ${GITHUB_SSH_REPO_URL}
       - run: npm install
       - run: cd socketserver
-      - run: PORT=80 node index.js
+      - run: pm2 start npm -- start
 workflows:
   deploy-to-web:
     jobs:
