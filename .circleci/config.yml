@@ -6,7 +6,15 @@ jobs:
     executor:
       name: node/default
     steps:
-      - run: ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} "cd CoinsTerminal && git pull && npm install && cd socketserver && pm2 start npm -- start"
+      - run: |
+        ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} 
+        "
+        cd CoinsTerminal &&
+        git pull &&
+        npm install &&
+        cd socketserver &&
+        pm2 start npm -- start
+        "
 workflows:
   deploy-to-prod:
     jobs:
