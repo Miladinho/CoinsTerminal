@@ -14,11 +14,11 @@ jobs:
               cd CoinsTerminal
               git pull
             else
-              cd CoinsTerminal
               git clone ${GITHUB_SSH_REPO_URL}
+              cd CoinsTerminal
             fi
-            npm install
             cd socketserver
+            npm install
             pm2 start npm -- start"
 workflows:
   deploy-to-prod:
