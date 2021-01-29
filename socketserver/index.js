@@ -10,8 +10,8 @@ let bittrexTickerURL = 'https://bittrex.com/api/v1.1/public/getticker/'
 let poloTickerURL = 'https://poloniex.com/public?command=returnTicker'
 let gdaxURL = 'https://api.gdax.com/products/'
 
-app.use(express.static(getRootDirectory()+ "/public"))
-console.log(getRootDirectory()+ "/public")
+app.use(express.static(getRootDirectory()+ "/web"))
+console.log(getRootDirectory()+ "/web")
 server = app.listen(PORT, () => {
 	console.log(`Server listening on port ${PORT}`)
 })
