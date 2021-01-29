@@ -1,7 +1,7 @@
 {
   "name": "socketserver",
   "version": "1.0.0",
-  "description": "WebSocket Server fro Bittrex and Poloniex Cryptocurrency exchanges.",
+  "description": "WebSocket Server for Bittrex, Poloniex, and Coinbase Cryptocurrency exchanges.",
   "main": "index.js",
   "scripts": {
     "start": "PORT=80 node index.js"
