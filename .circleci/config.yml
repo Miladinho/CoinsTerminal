@@ -19,7 +19,7 @@ jobs:
             fi
             cd socketserver
             npm install
-            pm2 start CoinsTerminal -- start-prod"
+            pm2 start npm -- start-prod"
 workflows:
   deploy-to-prod:
     jobs:
