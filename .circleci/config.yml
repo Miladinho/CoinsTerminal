@@ -19,7 +19,9 @@ jobs:
             fi
             cd socketserver
             npm install
-            pm2 start npm -- start-prod"
+            pm2 kill
+            sudo killall node
+            sudo pm2 start npm -- run start-prod"
 workflows:
   deploy-to-prod:
     jobs:
