@@ -6,14 +6,24 @@ const request = require('request')
 const express = require("express")
 const app = express()
 
+const winston = require('winston')
+const logger = winston.createLogger({
+	level: 'info',
+	format: winston.format.json(),
+	defaultMeta: { service: 'user-service'},
+	transports: [
+		new winston.transports.File({ filename: 'combined.log' })
+	]
+})
+
 let bittrexTickerURL = 'https://bittrex.com/api/v1.1/public/getticker/'
 let poloTickerURL = 'https://poloniex.com/public?command=returnTicker'
 let gdaxURL = 'https://api.gdax.com/products/'
 
 app.use(express.static(getRootDirectory()+ "/web"))
-console.log(getRootDirectory()+ "/web")
-server = app.listen(PORT, () => {
-	console.log(`Server listening on port ${PORT}`)
+
+const server = app.listen(PORT, () => {
+	logger.log('info',`Server listening on port ${PORT}`)
 })
 const wss = new WebSocket({server})
 
@@ -72,16 +82,14 @@ wss.on('connection', function(ws, req) {
 		data.Poloniex = polo
 		data.Bittrex = bitt
 		data.Gdax = gdax
-
 		ws.send(JSON.stringify(data))
 	}, DATA_FETCH_DELAY)
 
 	ws.on('close', function() {
-		console.log(`Lost conneection from client ${req.socket.remoteAddress}`)
+		console.log(`Lost connection from client ${req.socket.remoteAddress}`)
 		clearInterval(tickerUpdate)
 	})
-
-	console.log(`New coonnection to client: ${req.socket.remoteAddress}`)
+	logger.log('info',`New connection to client: ${req.socket.remoteAddress}`)
 })
 
 function getRootDirectory() {
