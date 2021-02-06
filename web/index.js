@@ -5,7 +5,7 @@ var coinbasePrev = {}
 var bittrexPrev = {}
 var poloPrev = {}
 
-window.onbeforeunload = function(event) {
+window.onunload = window.onbeforeunload = function(event) {
     ws.close()
 };
 
