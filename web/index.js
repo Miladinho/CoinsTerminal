@@ -6,7 +6,7 @@ var bittrexPrev = {}
 var poloPrev = {}
 
 window.onbeforeunload = function(event) {
-    
+    ws.close()
 };
 
 ws.onopen = function() {
