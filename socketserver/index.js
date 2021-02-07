@@ -87,9 +87,12 @@ wss.on('connection', function(ws, req) {
 
 	ws.on('close', function() {
 		console.log(`Lost connection from client ${req.socket.remoteAddress}`)
+		logger.log('info', `Lost connection from client ${req.socket.remoteAddress}`)
 		clearInterval(tickerUpdate)
 	})
+
 	logger.log('info',`New connection to client: ${req.socket.remoteAddress}`)
+	console.log(`New connection to client: ${req.socket.remoteAddress}`)
 })
 
 function getRootDirectory() {
