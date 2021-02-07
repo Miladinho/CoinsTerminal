@@ -5,14 +5,6 @@ var coinbasePrev = {}
 var bittrexPrev = {}
 var poloPrev = {}
 
-window.onunload = window.onbeforeunload = function(event) {
-    ws.close()
-};
-
-ws.onopen = function() {
-    
-}
-
 ws.onmessage = function(data) {
     var data = JSON.parse(data.data);
     updateBittrexTable(data.Bittrex);
