@@ -100,13 +100,3 @@ function getRootDirectory() {
 	dir.pop()
 	return dir.join('/') 
 }
-
-function updateCurrentBittrexValues(data) {
-    if (data.MarketName === '') {
-    	lastUSDT_ETH = data.Fills[0].Rate
-  	} else if (data.MarketName === '') {
-  		lastUSDT_LTC = data.Fills[0].Rate
-  	} else {
-  		lastUSDT_BTC = data.Fills[0].Rate
-  	}
-}
