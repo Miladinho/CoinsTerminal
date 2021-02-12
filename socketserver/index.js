@@ -6,14 +6,17 @@ const request = require('request')
 const express = require("express")
 const app = express()
 
-const winston = require('winston')
-const logger = winston.createLogger({
+const {transports, createLogger, format} = require('winston')
+const logger = createLogger({
 	level: 'info',
-	format: winston.format.json(),
+	format: format.combine(
+		format.timestamp({format:'MMM-DD-YYYY HH:mm:ss'}),
+		format.json()
+	),
 	defaultMeta: { service: 'user-service'},
 	transports: [
-		new winston.transports.File({ filename: 'combined.log' }),
-		new winston.transports.Console()
+		new transports.File({ filename: 'combined.log' }),
+		new transports.Console({'timestamp':true})
 	]
 })
 
