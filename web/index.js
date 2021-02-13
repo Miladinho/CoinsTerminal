@@ -16,8 +16,6 @@ ws.onclose = function() {
 }
 
 function updateCoinbaseTable(data) {
-    var currency = data;
-    console.log(data);
     const btc = document.getElementById('tr-cb-btc')
     const eth = document.getElementById("tr-cb-eth")
     const ltc = document.getElementById("tr-cb-ltc")
@@ -35,7 +33,6 @@ function updateCoinbaseTable(data) {
 }
 
 function updateBittrexTable(data) {
-    var currency = data;
     const btc = document.getElementById('tr-bt-btc')
     const eth = document.getElementById("tr-bt-eth")
     const ltc = document.getElementById("tr-bt-ltc")
@@ -53,7 +50,6 @@ function updateBittrexTable(data) {
 }
 
 function updatePoloniexTable(data) {
-    var currency = data;
     var btc = document.getElementById('tr-pl-btc')
     var eth = document.getElementById('tr-pl-eth')
     var ltc = document.getElementById('tr-pl-ltc')
@@ -81,7 +77,7 @@ function setTickerChangeColor(prev, next, pairString) {
 
     const prevVal = parseFloat(prev[pairString])
     const nextVal = parseFloat(next[pairString])
-    console.log(prev, next)
+
     console.log(prevVal, nextVal)
     if (prevVal > nextVal)
         return downColor
