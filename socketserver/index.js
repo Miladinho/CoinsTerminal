@@ -22,10 +22,6 @@ const logger = createLogger({
 	]
 })
 
-let bittrexTickerURL = 'https://bittrex.com/api/v1.1/public/getticker/'
-let poloTickerURL = 'https://poloniex.com/public?command=returnTicker'
-let gdaxURL = 'https://api.gdax.com/products/'
-
 app.use(express.static(getRootDirectory()+ "/web"))
 
 const server = app.listen(PORT, () => {
@@ -53,7 +49,11 @@ function getRootDirectory() {
 }
 
 async function getExchangeData() {
-	var data = {
+	let bittrexTickerURL = 'https://bittrex.com/api/v1.1/public/getticker/'
+	let poloTickerURL = 'https://poloniex.com/public?command=returnTicker'
+	let gdaxURL = 'https://api.gdax.com/products/'
+	
+	let data = {
 		Bittrex: new Object(),
 		Poloniex: new Object(),
 		Gdax: new Object()
