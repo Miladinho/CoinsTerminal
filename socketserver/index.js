@@ -2,9 +2,11 @@ const PORT = process.env.PORT || 3331
 const DATA_FETCH_DELAY = process.env.DATA_FETCH_DELAY || 2000
 
 const WebSocket = require('ws').Server
-const request = require('request')
-const express = require("express")
+const express = require('express')
 const app = express()
+
+const util = require('util')
+const request = util.promisify(require('request'))
 
 const {transports, createLogger, format} = require('winston')
 const logger = createLogger({
@@ -32,61 +34,8 @@ const server = app.listen(PORT, () => {
 const wss = new WebSocket({server})
 
 wss.on('connection', function(ws, req) {
-	var bitt = {}
-	var polo = {}
-	var gdax = {}
-	const tickerUpdate = setInterval(function() {
-		request(bittrexTickerURL+'?market=usdt-btc', function (error, response, body) {
-			if (error)
-				console.log(`Bittrex BTC-USD error: ${error}`)
-			else
-				bitt['USDT-BTC'] = JSON.parse(body).result.Last
-		})
-		request(bittrexTickerURL+'?market=usdt-eth', function (error, response, body) {
-			if (error)
-				console.log(`Bittrex ETH-USD error: ${error}`)
-			else
-				bitt['USDT-ETH'] = JSON.parse(body).result.Last
-		})
-		request(bittrexTickerURL+'?market=usdt-ltc', function (error, response, body) {
-			if (error)
-				console.log(`Bittrex LTC-USD error: ${error}`)
-			else
-				bitt['USDT-LTC'] = JSON.parse(body).result.Last
-		})
-		request(poloTickerURL, function (error, response, body) {
-			if (error) {
-				console.log(`Poloniex error: ${error}`)
-				return
-			}
-			var data = JSON.parse(body)
-			polo['USDT-BTC'] = data.USDT_BTC.last
-			polo['USDT-ETH'] = data.USDT_ETH.last
-			polo['USDT-LTC'] = data.USDT_LTC.last
-		})
-		request({headers: {'User-Agent': 'Mozilla 5.0'}, uri: gdaxURL+'BTC-USD/ticker'}, function (error, response, body) {
-			if (error)
-				console.log(`Gdax BTC-USD error: ${error}`)
-			else
-				gdax['USDT-BTC'] = JSON.parse(body).price
-		})
-		request({headers: {'User-Agent': 'Mozilla 5.0'}, uri: gdaxURL+'ETH-USD/ticker'}, function (error, response, body) {
-			if (error)
-				console.log(`Gdax ETH-USD error: ${error}`)
-			else
-				gdax['USDT-ETH'] = JSON.parse(body).price
-		})
-		request({headers: {'User-Agent': 'Mozilla 5.0'}, uri: gdaxURL+'LTC-USD/ticker'}, function (error, response, body) {
-			if (error)
-				console.log(`Gdax LTC-USD error: ${error}`)
-			else
-				gdax['USDT-LTC'] = JSON.parse(body).price
-		})
-		var data ={}
-		data.Poloniex = polo
-		data.Bittrex = bitt
-		data.Gdax = gdax
-		ws.send(JSON.stringify(data))
+	const tickerUpdate = setInterval(async function() {
+		ws.send(JSON.stringify(await getExchangeData()))
 	}, DATA_FETCH_DELAY)
 
 	ws.on('close', function() {
@@ -101,4 +50,32 @@ function getRootDirectory() {
 	let dir = __dirname.split('/')
 	dir.pop()
 	return dir.join('/') 
+}
+
+async function getExchangeData() {
+	var data = {
+		Bittrex: new Object(),
+		Poloniex: new Object(),
+		Gdax: new Object()
+	}
+
+	try {
+		data.Bittrex['USDT-BTC'] = String(JSON.parse((await request(bittrexTickerURL+'?market=usdt-btc')).body).result.Last)
+		data.Bittrex['USDT-ETH'] = String(JSON.parse((await request(bittrexTickerURL+'?market=usdt-eth')).body).result.Last)
+		data.Bittrex['USDT-LTC'] = String(JSON.parse((await request(bittrexTickerURL+'?market=usdt-ltc')).body).result.Last)
+
+		const poloData = JSON.parse((await request(poloTickerURL)).body)
+		data.Poloniex['USDT-BTC'] = poloData.USDT_BTC.last
+		data.Poloniex['USDT-ETH'] = poloData.USDT_ETH.last
+		data.Poloniex['USDT-LTC'] = poloData.USDT_LTC.last
+
+		data.Gdax['USDT-BTC'] = JSON.parse((await request({headers: {'User-Agent': 'Mozilla 5.0'}, uri: gdaxURL+'BTC-USD/ticker'})).body).price
+		data.Gdax['USDT-ETH'] = JSON.parse((await request({headers: {'User-Agent': 'Mozilla 5.0'}, uri: gdaxURL+'ETH-USD/ticker'})).body).price
+		data.Gdax['USDT-LTC'] = JSON.parse((await request({headers: {'User-Agent': 'Mozilla 5.0'}, uri: gdaxURL+'LTC-USD/ticker'})).body).price
+	} catch (e) {
+		console.error(e)
+	} finally {
+		console.log(data)
+		return data
+	}
 }
