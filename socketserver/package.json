@@ -10,7 +10,7 @@
   "author": "Milad Gueramian",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "request": "^2.88.2",
     "winston": "^3.3.3",
     "ws": ">=3.3.1"
